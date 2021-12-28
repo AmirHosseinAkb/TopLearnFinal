@@ -18,6 +18,7 @@ namespace TopLearn.Data.Entities.User
 
         public bool IsDeleted { get; set; }
 
+
         public List<UserRole> UserRoles { get; set; }
     }
 }

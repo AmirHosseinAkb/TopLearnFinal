@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Convertors\" />
-    <Folder Include="Generators\" />
     <Folder Include="Senders\" />
-    <Folder Include="Security\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
