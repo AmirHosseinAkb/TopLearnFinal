@@ -9,6 +9,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using TopLearn.Core.Services;
+using TopLearn.Core.Services.Interfaces;
 using TopLearn.Data.Context;
 
 namespace TopLearn
@@ -32,6 +34,12 @@ namespace TopLearn
             services.AddDbContext<TopLearnContext>(context => 
                 context.UseSqlServer(Configuration.GetConnectionString("TopLearnConnection"))
             );
+
+            #endregion
+
+            #region IOC
+
+            services.AddTransient<IUserService, UserService>();
 
             #endregion
         }
