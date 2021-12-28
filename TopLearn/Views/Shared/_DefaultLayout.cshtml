@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html class="no-js" dir="rtl" lang="fa-IR">
+<head>
+    <meta charset="UTF-8">
+    <title> تاپ لرن </title>
+    <partial name="_MetaTags"/>
+    <partial name="_Styles"/>
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+    <script src="js/modernizr-custom.js"></script>
+
+    <div class="landing-layer">
+        <div class="container">
+            <nav>
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <ul>
+                            <li>
+                                <a href=""> همکاری در فروش </a>
+                                <a href=""> درباره ما </a>
+                                <a href=""> تماس با ما </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="clientarea">
+                            <div class="loggein ">
+                                <i class="zmdi zmdi-account"></i><a href=""> ایمان مدائنی ، خوش آمدی </a>
+                            </div>
+                            <div class="signin hidden">
+                                <i class="zmdi zmdi-account"></i>
+                                <a href=""> ورود </a> /
+                                <a href=""> عضویت </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <header>
+                <a href="" class="logo"><img src="images/logo.png"></a>
+                <h1> با اساتید مجرب و کارآزموده در خودآموز تاپ لرن </h1>
+                <h2> آموزش ببینید ، تجربه کسب کنید و بازار کار شوید </h2>
+                <h3> با کمترین هزینه خودت یاد بگیر </h3>
+            </header>
+            <div class="search-form">
+                <form>
+                    <input type="text" name="" placeholder="چی دوست داری یاد بگیری ؟">
+                    <button><i class="zmdi zmdi-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- main manu -->
+    <partial name="_MainMenu" />
+    <!-- /main manu -->
+    <!-- content -->
+    @RenderBody()
+    <!-- /content -->
+    <!-- footer -->
+    <partial name="_Footer" />
+    <!-- /footer -->
+
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>
