@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
+using TopLearn.Data.Context;
 
 namespace TopLearn
 {
@@ -23,6 +26,14 @@ namespace TopLearn
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            #region DbContext
+
+            services.AddDbContext<TopLearnContext>(context => 
+                context.UseSqlServer(Configuration.GetConnectionString("TopLearnConnection"))
+            );
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
