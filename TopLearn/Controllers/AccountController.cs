@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using TopLearn.Core.Services.Interfaces;
 using TopLearn.Core.DTOs.User;
 using TopLearn.Data.Entities.User;
@@ -72,6 +75,60 @@ namespace TopLearn.Controllers
         public IActionResult ActiveAccount(string activeCode)
         {
             ViewBag.IsActived = _userService.ActiveAccount(activeCode);
+            return View();
+        }
+
+        [Route("Login")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login(LoginUserViewModel login)
+        {
+            if (!ModelState.IsValid)
+                return View(login);
+
+            var user = _userService.GetUserForLogin(login.Email, login.Password);
+            if (user != null)
+            {
+                if (user.IsActive)
+                {
+                    List<Claim> claims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                        new Claim(ClaimTypes.Name, user.UserName)
+                    };
+                    var identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var principal = new ClaimsPrincipal(identity);
+                    var properties = new AuthenticationProperties()
+                    {
+                        IsPersistent = login.RememberMe
+                    };
+                    HttpContext.SignInAsync(principal, properties);
+                    ViewBag.IsLogedIn = true;
+                    return View();
+                }
+                else
+                {
+                    ModelState.AddModelError("Password","حساب کاربری شما غیرفعال است");
+                    return View(login);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Password","کاربری با این مشخصات وجود ندارد");
+                return View(login);
+            }
+            
+        }
+
+        [Route("ForgotPassword")]
+        public IActionResult ForgotPassword()
+        {
             return View();
         }
     }

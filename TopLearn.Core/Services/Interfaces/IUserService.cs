@@ -14,5 +14,7 @@ namespace TopLearn.Core.Services.Interfaces
         void AddUser(User user);
         bool ActiveAccount(string activeCode);
         void UpdateUser(User user);
+        User GetUserForLogin(string email, string password);
+
     }
 }

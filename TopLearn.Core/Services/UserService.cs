@@ -40,6 +40,12 @@ namespace TopLearn.Core.Services
             _context.SaveChanges();
         }
 
+        public User GetUserForLogin(string email, string password)
+        {
+            return _context.Users.SingleOrDefault(u =>
+                u.Email == EmailConvertor.FixEmail(email) && u.Password== PasswordHasher.HashPasswordMD5(password));
+        }
+
         public bool IsExistUserByEmail(string email)
         {
             return _context.Users.Any(u => u.Email == EmailConvertor.FixEmail(email)) ;
