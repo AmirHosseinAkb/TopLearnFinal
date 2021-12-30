@@ -10,8 +10,8 @@ using TopLearn.Data.Context;
 namespace TopLearn.Data.Migrations
 {
     [DbContext(typeof(TopLearnContext))]
-    [Migration("20211228192751_InitUserTbls")]
-    partial class InitUserTbls
+    [Migration("20211230144351_InitDatabaseSecondTime")]
+    partial class InitDatabaseSecondTime
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,7 +38,7 @@ namespace TopLearn.Data.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("TopLearn.Data.Entities.User.User", b =>
@@ -80,7 +80,7 @@ namespace TopLearn.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TopLearn.Data.Entities.User.UserRole", b =>
@@ -102,7 +102,7 @@ namespace TopLearn.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("TopLearn.Data.Entities.User.UserRole", b =>

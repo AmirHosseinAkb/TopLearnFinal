@@ -9,7 +9,7 @@ namespace TopLearn.Core.Security
 {
     public class PasswordHasher
     {
-        public static string HahsPasswordMD5(string password)
+        public static string HashPasswordMD5(string password)
         {
             Byte[] originalPass;
             Byte[] encodedPass;

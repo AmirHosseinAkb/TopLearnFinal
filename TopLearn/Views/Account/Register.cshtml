@@ -1,4 +1,4 @@
-﻿
+﻿@model RegisterUserViewModel
 @{
     ViewData["Title"] = "ثبت نام کاربر";
 }
@@ -23,25 +23,29 @@
 
                 <div class="input-group">
                     <span class="input-group-addon" id="username"><i class="zmdi zmdi-account"></i></span>
-                    <input type="text" class="form-control" placeholder="نام کاربری" aria-describedby="username">
+                    <input asp-for="UserName" type="text" class="form-control" placeholder="نام کاربری" aria-describedby="username">
                 </div>
-
+                <span asp-validation-for="UserName" class="text-danger"></span>
                 <div class="input-group">
                     <span class="input-group-addon" id="email-address"><i class="zmdi zmdi-email"></i></span>
-                    <input type="text" class="form-control" placeholder="ایمیل" aria-describedby="email-address">
+                    <input asp-for="Email"  class="form-control" placeholder="ایمیل" aria-describedby="email-address">
                 </div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <div class="input-group">
+                    <span class="input-group-addon" id="password"><i class="zmdi zmdi-lock"></i></span>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="رمز عبور " aria-describedby="password">
+                </div>
+                <span asp-validation-for="Password" class="text-danger"></span>
 
                 <div class="input-group">
                     <span class="input-group-addon" id="password"><i class="zmdi zmdi-lock"></i></span>
-                    <input type="text" class="form-control" placeholder="رمز عبور " aria-describedby="password">
+                    <input asp-for="RePassword" type="password" class="form-control" placeholder="تکرار رمز عبور " aria-describedby="password">
                 </div>
-
+                <span asp-validation-for="RePassword" class="text-danger"></span>
                 <div class="link">
                     <a href="/Login"> <i class="zmdi zmdi-account"></i> ورود به سایت </a>
                 </div>
-                        
                 <button class="btn btn-success"> عضویت در سایت </button>
-
             </form>
         </div>
 

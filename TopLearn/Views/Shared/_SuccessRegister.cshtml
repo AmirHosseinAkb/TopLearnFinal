@@ -1,0 +1,12 @@
+﻿@model TopLearn.Data.Entities.User.User
+@{
+    ViewData["Title"] = "موفقیت ثبت نام!";
+}
+
+<div class="alert alert-success">
+    <h1>@Model.UserName عزیز!</h1>
+    <p>حساب کاربری شما با موفیت در تاپلرن ایجاد شد. ایمیلی حاوی لینک فعالسازی به ایمیل @Model.Email ارسال شد <br/> برای فعالسازی
+        حساب کاربری خود میبایست وارد ایمیل خود شده و روی لینک فعالسازی کلیک نمایید.</p>
+    <a class="btn btn-warning" href="/Login">ورود به سایت</a>
+</div>
+
