@@ -59,4 +59,22 @@ namespace TopLearn.Core.DTOs.User
         [DataType(DataType.EmailAddress, ErrorMessage = "{0} را بصورت صحیح وارد کنید")]
         public string Email { get; set; }
     }
+
+    public class ChangePasswordViewModel
+    {
+        [Display(Name = "رمز عبور")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Display(Name = "تکرار رمز عبور")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [MaxLength(50, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "تکرار رمز عبور صحیح نمی باشد")]
+        public string RePassword { get; set; }
+
+        public string ActiveCode { get; set; }  
+    }
 }

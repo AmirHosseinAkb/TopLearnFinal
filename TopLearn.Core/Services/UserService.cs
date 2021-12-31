@@ -40,6 +40,16 @@ namespace TopLearn.Core.Services
             _context.SaveChanges();
         }
 
+        public User GetUserByActiveCode(string activeCode)
+        {
+            return _context.Users.SingleOrDefault(u => u.ActiveCode == activeCode);
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.SingleOrDefault(e => e.Email == EmailConvertor.FixEmail(email));
+        }
+
         public User GetUserForLogin(string email, string password)
         {
             return _context.Users.SingleOrDefault(u =>

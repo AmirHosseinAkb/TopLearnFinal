@@ -131,6 +131,60 @@ namespace TopLearn.Controllers
         {
             return View();
         }
+
+        [Route("ForgotPassword")]
+        [HttpPost]
+        public IActionResult ForgotPassword(ForgotPasswordViewModel forgot)
+        {
+            var user = _userService.GetUserByEmail(forgot.Email);
+            if (user == null || !user.IsActive)
+            {
+                ModelState.AddModelError("Email","کاربری با ایمیل وارد شده وجود ندراد");
+                return View(forgot);
+            }
+
+            //SendEmail
+            string body = _renderService.RenderToStringAsync("_ForgotPasswordEmailBody", user);
+            SendEmail.Send(user.Email,"بازیابی رمز عبور|تاپلرن",body);
+            ViewBag.IsEmailSent = true;
+            return View();
+        }
+
+        [Route("ChangePassword/{activeCode?}")]
+        public IActionResult ChangePassword(string activeCode)
+        {
+            var user = _userService.GetUserByActiveCode(activeCode);
+            ChangePasswordViewModel change = new ChangePasswordViewModel()
+            {
+                ActiveCode = activeCode
+            };
+            if (user == null)
+            {
+                ViewBag.IsExpierd = true;
+                return View();
+            }
+            return View(change);
+        }
+
+        [Route("ChangePassword/{activeCode?}")]
+        [HttpPost]
+
+        public IActionResult ChangePassword(ChangePasswordViewModel change)
+        {
+            if (!ModelState.IsValid)
+                return View(change);
+            var user = _userService.GetUserByActiveCode(change.ActiveCode);
+            if (user == null || !user.IsActive)
+            {
+                return Forbid();
+            }
+
+            user.Password = PasswordHasher.HashPasswordMD5(change.Password);
+            user.ActiveCode = NameGenerator.GenerateUniqCode();
+            _userService.UpdateUser(user);
+            ViewBag.IsChanged = true;
+            return View();
+        }
     }
 }
 
