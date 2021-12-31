@@ -79,8 +79,9 @@ namespace TopLearn.Controllers
         }
 
         [Route("Login")]
-        public IActionResult Login()
+        public IActionResult Login(bool isEdited=false)
         {
+            ViewBag.isEdited = isEdited;
             return View();
         }
 
@@ -184,6 +185,14 @@ namespace TopLearn.Controllers
             _userService.UpdateUser(user);
             ViewBag.IsChanged = true;
             return View();
+        }
+
+        [Route("/Logout")]
+
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/Login");
         }
     }
 }

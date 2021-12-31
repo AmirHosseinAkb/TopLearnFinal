@@ -1,0 +1,82 @@
+﻿@model EditUserProfileViewModel
+@{
+    ViewData["Title"] = "ویرایش پروفایل";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">تاپ لرن</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> پنل کاربری </li>
+        </ul>
+    </nav>
+</div>
+
+<main>
+    <div class="container">
+        <div class="user-account">
+            <div class="row">
+                <partial name="_SideBar" />
+                <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
+                    <div class="col-md-6">
+                        <section class="user-account-content">
+                            <header><h1> ویرایش پروفایل کاربری </h1></header>
+                            <div class="inner">
+                                <input type="hidden" asp-for="AvatarName" />
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="email-address"><i class="zmdi zmdi-folder-person"></i></span>
+                                    <input asp-for="UserName" type="text" class="form-control" placeholder="نام کاربری" readonly aria-describedby="email-address">
+                                </div>
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                                <br />
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="email-address"><i class="zmdi zmdi-email"></i></span>
+                                    <input asp-for="Email" type="text" class="form-control" placeholder="ایمیل" aria-describedby="email-address">
+                                </div>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                                <div>
+                                    <button class="btn btn-success"> تایید و ویرایش </button>
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-md-3">
+                        <section class="user-account-content">
+                            <header><h1> تصویر پروفایل </h1></header>
+                            <div class="inner">
+                                <div class="avatar-layer">
+                                    <img id="imgAvatar" src="/UserAvatar/@Model.AvatarName">
+                                    <hr />
+                                    <input id="imgInp" type="file" asp-for="UserAvatar" />
+                                    <span asp-validation-for="UserAvatar" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts
+{
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+    </script>
+}

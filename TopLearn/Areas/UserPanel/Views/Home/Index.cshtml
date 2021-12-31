@@ -1,4 +1,4 @@
-﻿
+﻿@model UserInformationsForShowViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -16,7 +16,7 @@
     <div class="container">
         <div class="user-account">
             <div class="row">
-                
+                <partial name="_SideBar"/>
                 <div class="col-md-9 col-sm-8 col-xs-12">
                     <section class="user-account-content">
                         <header><h1> داشبورد </h1></header>
@@ -24,11 +24,10 @@
                             <div class="account-information">
                                 <h3> اطلاعات کاربری </h3>
                                 <ul>
-                                    <li> <i class="zmdi zmdi-account"></i> نام و نام خانوادگی : ایمان مدائنی </li>
-                                    <li> <i class="zmdi zmdi-assignment-account"></i> نام کاربری :  imadmadaeni </li>
-                                    <li> <i class="zmdi zmdi-email"></i> ایمیل : imadmadaeni@gmail.com </li>
-                                    <li> <i class="zmdi zmdi-calendar-check"></i> تاریخ عضویت : 01/01/1395 </li>
-                                    <li> <i class="zmdi zmdi-smartphone-android"></i> شماره تماس : 0912000000 </li>
+                                    <li> <i class="zmdi zmdi-assignment-account"></i> نام کاربری :  @Model.UserName </li>
+                                    <li> <i class="zmdi zmdi-email"></i> ایمیل : @Model.Email </li>
+                                    <li> <i class="zmdi zmdi-calendar-check"></i> تاریخ عضویت : @Model.RegisterDate.ToShamsi() </li>
+                                    <li> <i class="zmdi zmdi-balance-wallet"></i> موجودی کیف پول : @Model.Wallet </li>
                                 </ul>
                             </div>
                         </div>
