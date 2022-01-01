@@ -59,4 +59,11 @@ namespace TopLearn.Core.DTOs.User
         public string ReNewPassword { get; set; }
     }
 
+    public class WalletViewModel
+    {
+        [Display(Name = "مبلغ تراکنش")]
+        [Required(ErrorMessage = "لطفا{0} را وارد کنید")]
+        public int Amount { get; set; }
+    }
+
 }

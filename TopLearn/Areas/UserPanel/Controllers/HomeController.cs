@@ -58,13 +58,13 @@ namespace TopLearn.Areas.UserPanel.Controllers
             return Redirect("/Login?isEdited=true");
         }
 
-        [Route("ResetPassword")]
+        [Route("UserPanel/ResetPassword")]
         public IActionResult ResetPassword()
         {
             return View();
         }
         [HttpPost]
-        [Route("ResetPassword")]
+        [Route("UserPanel/ResetPassword")]
         public IActionResult ResetPassword(ResetPasswordViewModel resetPassword)
         {
             if (!ModelState.IsValid)

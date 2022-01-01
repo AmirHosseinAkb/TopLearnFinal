@@ -1,0 +1,93 @@
+﻿@using TopLearn.Data.Entities.Wallet
+@model WalletViewModel
+@{
+    ViewData["Title"] = "کیف پول شما";
+    List<Wallet> wallets = ViewBag.UserWallets as List<Wallet>;
+}
+
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">تاپ لرن</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> پنل کاربری </li>
+        </ul>
+    </nav>
+</div>
+
+<main>
+    <div class="container">
+        <div class="user-account">
+            <div class="row">
+                <partial name="_SideBar" />
+                <form asp-action="ChargeWallet" method="post">
+                    <div class="col-md-9">
+                        <section class="user-account-content">
+                            <header><h1> افزایش موجودی </h1></header>
+                            <div class="inner">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="email-address"><i class="zmdi zmdi-money"></i></span>
+                                    <input asp-for="Amount" type="number" class="form-control" placeholder="مبلغ به (تومان) " value="0" aria-describedby="email-address">
+                                </div>
+                                <span asp-validation-for="Amount" class="text-danger"></span>
+                                <div>
+                                    <button class="btn btn-success"> تایید و پرداخت </button>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="user-account-content">
+                            <header><h1> افزایش موجودی </h1></header>
+                            <div class="inner">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td>مبلغ تراکنش</td>
+                                            <td>نوع تراکنش</td>
+                                            <td> تراکنش موفق </td>
+                                            <td>توضیحات</td>
+                                            <td>تاریخ</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var wallet in wallets)
+                                        {
+                                            <tr>
+                                                <td>@wallet.Amount</td>
+                                                <td>
+                                                    @if (wallet.TypeId == 1)
+                                                    {
+                                                        <p class="text-success">واریز</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="text-danger">برداشت</p>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (wallet.IsPayed)
+                                                    {
+                                                        <p class="text-success">
+                                                            <span class="glyphicon glyphicon-ok"></span>
+                                                        </p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="text-danger">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                        </p>
+                                                    }
+                                                </td>
+                                                <td>@wallet.Description</td>
+                                                <td>@wallet.CreateDate.ToShamsi()</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

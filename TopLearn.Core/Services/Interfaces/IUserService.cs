@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TopLearn.Core.DTOs.User;
 using TopLearn.Data.Entities.User;
+using TopLearn.Data.Entities.Wallet;
 
 namespace TopLearn.Core.Services.Interfaces
 {
@@ -28,8 +29,17 @@ namespace TopLearn.Core.Services.Interfaces
         UserInformationsForShowViewModel GetUserInformationsForShow(string userName);
         SideBarInformationsViewModel GetUserSideBarInformationsForShow(string userName);
         EditUserProfileViewModel GetUserForEdit(string userName);
-        void EditUser(string userName,EditUserProfileViewModel edit);
-        
+        void EditUser(string userName, EditUserProfileViewModel edit);
+
+        #endregion
+
+        #region Wallet
+
+        int AddWallet(Wallet wallet);
+        Wallet GetWalletByWalletId(int walletId);
+        void UpdateWallet(Wallet wallet);
+        List<Wallet> GetUserWallets(string userName);
+        int BalanceUserWallet(string userName);
 
         #endregion
 

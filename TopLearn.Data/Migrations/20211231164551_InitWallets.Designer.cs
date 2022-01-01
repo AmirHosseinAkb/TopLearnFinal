@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TopLearn.Data.Context;
 
 namespace TopLearn.Data.Migrations
 {
     [DbContext(typeof(TopLearnContext))]
-    partial class TopLearnContextModelSnapshot : ModelSnapshot
+    [Migration("20211231164551_InitWallets")]
+    partial class InitWallets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,11 +132,14 @@ namespace TopLearn.Data.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("WalletTypeTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("WalletId");
 
-                    b.HasIndex("TypeId");
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("WalletTypeTypeId");
 
                     b.ToTable("Wallets");
                 });
@@ -175,17 +180,15 @@ namespace TopLearn.Data.Migrations
 
             modelBuilder.Entity("TopLearn.Data.Entities.Wallet.Wallet", b =>
                 {
-                    b.HasOne("TopLearn.Data.Entities.Wallet.WalletType", "WalletType")
-                        .WithMany("Wallets")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TopLearn.Data.Entities.User.User", "User")
                         .WithMany("Wallets")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TopLearn.Data.Entities.Wallet.WalletType", "WalletType")
+                        .WithMany("Wallets")
+                        .HasForeignKey("WalletTypeTypeId");
 
                     b.Navigation("User");
 

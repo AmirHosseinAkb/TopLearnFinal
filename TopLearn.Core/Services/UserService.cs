@@ -11,6 +11,7 @@ using TopLearn.Core.Generators;
 using TopLearn.Core.Security;
 using TopLearn.Data.Entities.User;
 using TopLearn.Core.DTOs.User;
+using TopLearn.Data.Entities.Wallet;
 
 namespace TopLearn.Core.Services
 {
@@ -40,6 +41,22 @@ namespace TopLearn.Core.Services
         {
             _context.Users.Add(user);
             _context.SaveChanges();
+        }
+
+        public int AddWallet(Wallet wallet)
+        {
+            _context.Wallets.Add(wallet);
+            _context.SaveChanges();
+            return wallet.WalletId;
+        }
+
+        public int BalanceUserWallet(string userName)
+        {
+            var userId = GetUserIdByUserName(userName);
+            var deposite = _context.Wallets.Where(w => w.UserId == userId && w.TypeId == 1 && w.IsPayed).ToList();
+            var withdraw = _context.Wallets.Where(w => w.UserId == userId && w.TypeId == 2 && w.IsPayed).ToList();
+            return deposite.Sum(w => w.Amount) - withdraw.Sum(w => w.Amount);
+
         }
 
         public void EditUser(string userName, EditUserProfileViewModel edit)
@@ -119,7 +136,7 @@ namespace TopLearn.Core.Services
                     UserName = u.UserName,
                     Email = u.Email,
                     RegisterDate = u.RegisterDate,
-                    Wallet = 0
+                    Wallet = BalanceUserWallet(userName)
                 }).Single();
         }
 
@@ -132,6 +149,17 @@ namespace TopLearn.Core.Services
                     AvatarName = u.AvatarName,
                     RegisterDate = u.RegisterDate
                 }).Single();
+        }
+
+        public List<Wallet> GetUserWallets(string userName)
+        {
+            var userId = GetUserIdByUserName(userName);
+            return _context.Wallets.Where(w => w.UserId == userId).ToList();
+        }
+
+        public Wallet GetWalletByWalletId(int walletId)
+        {
+            return _context.Wallets.Find(walletId);
         }
 
         public bool IsExistUserByEmail(string email)
@@ -147,6 +175,12 @@ namespace TopLearn.Core.Services
         public void UpdateUser(User user)
         {
             _context.Users.Update(user);
+            _context.SaveChanges();
+        }
+
+        public void UpdateWallet(Wallet wallet)
+        {
+            _context.Wallets.Update(wallet);
             _context.SaveChanges();
         }
     }
