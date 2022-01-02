@@ -43,6 +43,36 @@ namespace TopLearn.Core.Services
             _context.SaveChanges();
         }
 
+        public int AddUserFromAdmin(CreateUserViewModel create)
+        {
+            User user = new User()
+            {
+                UserName = create.UserName,
+                Email = EmailConvertor.FixEmail(create.Email),
+                Password = PasswordHasher.HashPasswordMD5(create.Password),
+                RegisterDate = DateTime.Now,
+                ActiveCode = NameGenerator.GenerateUniqCode(),
+                IsActive = true,
+                AvatarName = "Default.png",
+                IsDeleted=false
+            };
+            if (create.UserAvatar != null)
+            {
+                user.AvatarName = NameGenerator.GenerateUniqCode() + Path.GetExtension(create.UserAvatar.FileName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "UserAvatar",
+                    user.AvatarName);
+                
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    create.UserAvatar.CopyTo(stream);
+                }
+            }
+            UpdateUser(user);
+            return user.UserId;
+        }
+
         public int AddWallet(Wallet wallet)
         {
             _context.Wallets.Add(wallet);
@@ -66,7 +96,7 @@ namespace TopLearn.Core.Services
             if (edit.UserAvatar != null)
             {
                 string imagePath = "";
-                if (edit.AvatarName == "Default.png")
+                if (edit.AvatarName != "Default.png")
                 {
                     imagePath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot",
@@ -164,7 +194,7 @@ namespace TopLearn.Core.Services
 
             UsersForShowInAdminViewModel users = new UsersForShowInAdminViewModel()
             {
-                Users = result.ToList(),
+                Users = result.Skip(skip).Take(take).ToList(),
                 CurrentPage = pageId,
                 PageCount = pageCount
             };

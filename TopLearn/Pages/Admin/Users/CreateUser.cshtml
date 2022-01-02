@@ -1,4 +1,75 @@
 ﻿@page
 @model TopLearn.Pages.Admin.Users.CreateUserModel
 @{
+    List<Role> roles = ViewData["Roles"] as List<Role>;
 }
+
+<div class="container">
+    <div class="row">
+        <form  method="post" enctype="multipart/form-data">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">افزودن کاربر جدید</h3></div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">نام کاربری</label>
+                            <input asp-for="CreateUserViewModel.UserName" type="text" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        <span asp-validation-for="CreateUserViewModel.UserName" class="text-danger"></span>
+                        @if (Convert.ToBoolean(ViewData["ExistUserName"]) == true)
+                        {
+                            <p class="text-danger">این نام کاربری از قبل وجود دارد</p>
+                        }
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">ادرس ایمیل</label>
+                            <input asp-for="CreateUserViewModel.Email" type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        <span asp-validation-for="CreateUserViewModel.Email" class="text-danger"></span>
+                        @if (Convert.ToBoolean(ViewData["ExistEmail"]) == true)
+                        {
+                            <p class="text-danger">این ایمیل از قبل وجود دارد</p>
+                        }
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">رمز عبور</label>
+                            <input asp-for="CreateUserViewModel.Password" type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <span asp-validation-for="CreateUserViewModel.Password" class="text-danger"></span>
+                        <div class="form-group">
+                            <label>نقش های کاربر</label>
+                            @foreach (var role in roles)
+                            {
+                                <div class="checkbox checkbox-circle  checkbox-success">
+                                    <input id="checkbox@(role.RoleId)" type="checkbox" name="SelectedRoles" value="@role.RoleId">
+                                    <label for="checkbox@(role.RoleId)">
+                                        @role.RoleTitle
+                                    </label>
+                                </div>
+                            }
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-purple waves-effect waves-light">افزودن کاربر</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">تصویر کاربر</h3></div>
+                    <div class="panel-body">
+                        <img class="img-thumbnail" src="/UserAvatar/Default.png" />
+                        <hr />
+                        <input type="file" asp-for="CreateUserViewModel.UserAvatar" />
+                        @if (Convert.ToBoolean(ViewData["IsntImage"]) == true)
+                        {
+                            <p class="text-danger">لطفا فقط تصویر وارد کنید</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

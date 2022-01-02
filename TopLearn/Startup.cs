@@ -43,6 +43,7 @@ namespace TopLearn
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IViewRenderService, RenderViewToString>();
+            services.AddTransient<IPermissionService, PermissionService>();
 
             #endregion
 
@@ -81,7 +82,6 @@ namespace TopLearn
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern:"{controller=Home}/{action=Index}/{id?}"
@@ -90,6 +90,7 @@ namespace TopLearn
                     name: "areas",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
+                endpoints.MapRazorPages();
             });
         }
     }
