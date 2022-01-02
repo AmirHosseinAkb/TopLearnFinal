@@ -43,5 +43,10 @@ namespace TopLearn.Core.Services.Interfaces
 
         #endregion
 
+        #region AdminUsers
+
+        UsersForShowInAdminViewModel GetUsers(int pageId = 1, string filterUserName = "", string filterEmail = "");
+
+        #endregion
     }
 }

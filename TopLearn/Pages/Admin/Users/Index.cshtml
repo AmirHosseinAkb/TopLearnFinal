@@ -1,0 +1,95 @@
+﻿@page
+@model TopLearn.Pages.Admin.Users.IndexModel
+@{
+}
+
+<div class="container">
+    <div class="panel">
+
+        <div class="panel-body">
+            <div class="row">
+                <div>
+                    <div>
+                        <a id="addToTable" href="/Admin/Users/CreateUser" class="btn btn-primary waves-effect waves-light pull-right m-b-15">افزودن کاربر جدید <i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <form method="get">
+                    <div class="row m-b-10">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="filterUserName" placeholder="نام کاربری" />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="filterEmail" placeholder="ایمیل" />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="submit" class="btn btn-success" value="جستجو" />
+                            <a class="btn btn-warning" href="/Admin/Users">پاک کردن فیلد ها</a>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                            <thead>
+                                <tr role="row">
+                                    <th>نام کاربری</th>
+                                    <th>ایمیل</th>
+                                    <th>فعال</th>
+                                    <th>تاریخ عضویت</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.UsersForShowInAdminViewModel.Users)
+                                {
+                                    <tr>
+                                        <td>@item.UserName</td>
+                                        <td>@item.Email</td>
+                                        <td>
+                                            @if (item.IsActive)
+                                            {
+                                                <p class="text-success">
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <p class="text-danger">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </p>
+                                            }
+                                        </td>
+                                        <td>@item.RegisterDate.ToShamsi()</td>
+                                        <td class="actions">
+                                            <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
+                                            <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
+                                            <a href="#" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                            <a href="#" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dataTables_paginate paging_simple_numbers pull-right" id="datatable-editable_paginate">
+                            <ul class="pagination">
+                                @for (int i = 1; i <= Model.UsersForShowInAdminViewModel.PageCount; i++)
+                                {
+                                    <li class="paginate_button @((i==Model.UsersForShowInAdminViewModel.CurrentPage)?"active":"")" aria-controls="datatable-editable" tabindex="@(i-1)"><a href="/Admin/Users?pageId=@i">@i</a></li>
+
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

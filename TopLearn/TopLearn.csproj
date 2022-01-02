@@ -24,8 +24,4 @@
     <ProjectReference Include="..\TopLearn.Data\TopLearn.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Admin\Users\" />
-  </ItemGroup>
-
 </Project>

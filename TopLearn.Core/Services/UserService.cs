@@ -140,6 +140,38 @@ namespace TopLearn.Core.Services
                 }).Single();
         }
 
+        public UsersForShowInAdminViewModel GetUsers(int pageId = 1, string filterUserName = "", string filterEmail = "")
+        {
+            IQueryable<User> result = _context.Users;
+            if (!string.IsNullOrEmpty(filterUserName))
+            {
+                result = result.Where(u => u.UserName.Contains(filterUserName));
+            }
+
+            if (!string.IsNullOrEmpty(filterEmail))
+            {
+                result = result.Where(u => u.Email.Contains(filterEmail));
+            }
+
+            int take = 1;
+            int skip = (pageId - 1) * take;
+            int pageCount= result.Count() / take;
+
+            if (result.Count() % take != 0)
+            {
+                pageCount += 1;
+            }
+
+            UsersForShowInAdminViewModel users = new UsersForShowInAdminViewModel()
+            {
+                Users = result.ToList(),
+                CurrentPage = pageId,
+                PageCount = pageCount
+            };
+            
+            return users;
+        }
+
         public SideBarInformationsViewModel GetUserSideBarInformationsForShow(string userName)
         {
             return _context.Users.Where(u => u.UserName == userName)
