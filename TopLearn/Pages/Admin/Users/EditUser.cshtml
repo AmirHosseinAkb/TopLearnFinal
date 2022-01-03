@@ -38,7 +38,7 @@
                             @foreach (var role in roles)
                             {
                                 <div class="checkbox checkbox-circle  checkbox-success">
-                                    <input @((userRoles.Any(ur=>ur==role.RoleId))?"checked":"") id="checkbox@(role.RoleId)" type="checkbox" name="SelectedRoles" value="@role.RoleId">
+                                    <input @((userRoles.Any(ur => ur == role.RoleId)) ? "checked" : "") id="checkbox@(role.RoleId)" type="checkbox" name="SelectedRoles" value="@role.RoleId">
                                     <label for="checkbox@(role.RoleId)">
                                         @role.RoleTitle
                                     </label>
@@ -56,9 +56,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">تصویر کاربر</h3></div>
                     <div class="panel-body">
-                        <img class="img-thumbnail" src="/UserAvatar/@Model.EditUserViewModel.AvatarName" />
+                        <img id="imgAvatar" class="img-thumbnail" src="/UserAvatar/@Model.EditUserViewModel.AvatarName" />
                         <hr />
-                        <input type="file" asp-for="EditUserViewModel.UserAvatar" />
+                        <input id="imgInp" type="file" asp-for="EditUserViewModel.UserAvatar" />
                         @if (Convert.ToBoolean(ViewData["IsntImage"]) == true)
                         {
                             <p class="text-danger">لطفا فقط تصویر وارد کنید</p>
@@ -70,4 +70,23 @@
     </div>
 </div>
 
+@section Scripts
+{
+    <script>
+        function readURL(input) {
 
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgAvatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+    </script>
+}

@@ -1,0 +1,49 @@
+﻿@page
+@model TopLearn.Pages.Admin.Roles.IndexModel
+@{
+}
+
+<div class="container">
+    <div class="panel">
+
+        <div class="panel-body">
+            <div class="row">
+                <div>
+                    <div>
+                        <a id="addToTable" href="/Admin/Roles/CreateRole" class="btn btn-primary waves-effect waves-light pull-right m-b-15">افزودن نقش جدید <i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div id="datatable-editable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered table-striped dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+                            <thead>
+                                <tr role="row">
+                                    <th>عنوان نقش</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Roles)
+                                {
+                                    <tr>
+                                        <td>@item.RoleTitle</td>
+                                        <td class="actions">
+                                            <a href="#" class="hidden on-editing save-row"><i class="fa fa-save"></i></a>
+                                            <a href="#" class="hidden on-editing cancel-row"><i class="fa fa-times"></i></a>
+                                            <a href="/Admin/Roles/EditRole/@item.RoleId" class="on-default edit-row"><i class="fa fa-pencil"></i></a>
+                                            <a href="/Admin/Roles/DeleteRole/@item.RoleId" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

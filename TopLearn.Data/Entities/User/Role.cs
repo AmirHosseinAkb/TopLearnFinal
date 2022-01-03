@@ -20,5 +20,6 @@ namespace TopLearn.Data.Entities.User
 
 
         public List<UserRole> UserRoles { get; set; }
+        public List<Permission.RolePermission> RolePermissions { get; set; }
     }
 }

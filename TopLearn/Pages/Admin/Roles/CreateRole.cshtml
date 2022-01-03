@@ -1,0 +1,94 @@
+﻿@page
+@model TopLearn.Pages.Admin.Roles.CreateRoleModel
+@{
+    List<Permission> permissions = ViewData["Permissions"] as List<Permission>;
+}
+<head>
+    <style>
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<div class="container">
+    <div class="row">
+        <form method="post" >
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">افزودن کاربر جدید</h3></div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">عنوان نقش</label>
+                            <input asp-for="Role.RoleTitle" type="text" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        @if (Convert.ToBoolean(ViewData["ExistRole"]))
+                        {
+                            <div class="alert alert-danger">
+                                این نقش از قبل وجود دارد
+                            </div>
+                        }
+                        <div>
+                            <button type="submit" class="btn btn-purple waves-effect waves-light">افزودن کاربر</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">دسترسی ها</h3></div>
+                    <div class="panel-body">
+                        <ul>
+                            @foreach (var item in permissions.Where(p => p.ParentId == null))
+                            {
+                                <li>
+                                    <div class="checkbox checkbox-circle  checkbox-success">
+                                        <input id="checkbox@(item.PermissionId)" type="checkbox" name="SelectedPermissions" value="@item.PermissionId">
+                                        <label for="checkbox@(item.PermissionId)">
+                                            @item.PermissionTitle
+                                        </label>
+                                    </div>
+
+                                    @if (permissions.Any(p => p.ParentId == item.PermissionId))
+                                    {
+                                        <ul>
+                                            @foreach (var sub in permissions.Where(p => p.ParentId == item.PermissionId))
+                                            {
+                                                <li>
+                                                    <div class="checkbox checkbox-circle  checkbox-success">
+                                                        <input id="checkbox@(sub.PermissionId)" type="checkbox" name="SelectedPermissions" value="@sub.PermissionId">
+                                                        <label for="checkbox@(sub.PermissionId)">
+                                                            @sub.PermissionTitle
+                                                        </label>
+                                                    </div>
+                                                    @if (permissions.Any(p => p.ParentId == sub.PermissionId))
+                                                    {
+                                                        <ul>
+                                                            @foreach (var sub2 in permissions.Where(p => p.ParentId == sub.PermissionId))
+                                                            {
+                                                                <li>
+                                                                    <div class="checkbox checkbox-circle  checkbox-success">
+                                                                        <input id="checkbox@(sub2.PermissionId)" type="checkbox" name="SelectedPermissions" value="@sub2.PermissionId">
+                                                                        <label for="checkbox@(sub2.PermissionId)">
+                                                                            @sub2.PermissionTitle
+                                                                        </label>
+                                                                    </div>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
