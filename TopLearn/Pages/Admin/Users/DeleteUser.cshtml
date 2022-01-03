@@ -1,0 +1,27 @@
+﻿@page "{userId}"
+@model TopLearn.Pages.Admin.Users.DeleteUserModel
+@{
+    var information = Model.UserInformationsForShowViewModel;
+}
+
+<div class="alert alert-danger">
+    <h2>آیا مطمئنید که میخواهید کاربر @information.UserName را حذف کنید؟</h2>
+    <hr />
+    <div class="form-group">
+        <label> مشخصات کاربر</label>
+        <ul>
+            <li>نام کاربری: @information.UserName</li>
+            <li>ایمیل: @information.Email</li>
+            <li>تاریخ عضویت: @information.RegisterDate.ToShamsi()</li>
+            <li>موجودی کیف پول: @information.Wallet</li>
+        </ul>
+    </div>
+    <hr />
+    <form method="post">
+        <input type="hidden" name ="userId" value="@ViewData["UserId"]" />
+        <div>
+            <input type="submit" class="btn btn-danger" value="تایید و حذف"/>
+            <a class="btn btn-success" href="/Admin/Users">انصراف</a>
+        </div>
+    </form>
+</div>
