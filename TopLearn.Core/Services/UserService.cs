@@ -121,6 +121,42 @@ namespace TopLearn.Core.Services
             UpdateUser(user);
         }
 
+        public void EditUserFromAdmin(EditUserViewModel edit)
+        {
+            var user = GetUserById(edit.UserId);
+
+            user.Email = EmailConvertor.FixEmail(edit.Email);
+            if (!string.IsNullOrEmpty(edit.Password))
+            {
+                user.Password = PasswordHasher.HashPasswordMD5(edit.Password);
+            }
+            if (edit.UserAvatar != null)
+            {
+                string imagePath = "";
+                if (edit.AvatarName != "Default.png")
+                {
+                    imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot",
+                        "UserAvatar",
+                        edit.AvatarName);
+                    if (File.Exists(imagePath))
+                    {
+                        File.Delete(imagePath);
+                    }
+                }
+                user.AvatarName = NameGenerator.GenerateUniqCode() + Path.GetExtension(edit.UserAvatar.FileName);
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot",
+                    "UserAvatar",
+                    user.AvatarName);
+                using(var stream=new FileStream(imagePath, FileMode.Create))
+                {
+                    edit.UserAvatar.CopyTo(stream);
+                }
+            }
+            UpdateUser(user);
+        }
+
         public User GetUserByActiveCode(string activeCode)
         {
             return _context.Users.SingleOrDefault(u => u.ActiveCode == activeCode);
@@ -129,6 +165,11 @@ namespace TopLearn.Core.Services
         public User GetUserByEmail(string email)
         {
             return _context.Users.SingleOrDefault(e => e.Email == EmailConvertor.FixEmail(email));
+        }
+
+        public User GetUserById(int userId)
+        {
+            return _context.Users.Find(userId);
         }
 
         public User GetUserByUserName(string userName)
@@ -144,6 +185,19 @@ namespace TopLearn.Core.Services
                     UserName = u.UserName,
                     Email = u.Email,
                     AvatarName = u.AvatarName
+                }).Single();
+        }
+
+        public EditUserViewModel GetUserForEditFromAdmin(int userId)
+        {
+            return _context.Users.Where(u => u.UserId == userId)
+                .Select(u => new EditUserViewModel()
+                {
+                    UserId = u.UserId,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    AvatarName = u.AvatarName
+
                 }).Single();
         }
 

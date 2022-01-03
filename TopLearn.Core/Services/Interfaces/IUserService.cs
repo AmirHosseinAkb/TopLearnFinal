@@ -22,6 +22,7 @@ namespace TopLearn.Core.Services.Interfaces
         User GetUserByUserName(string userName);
         int GetUserIdByUserName(string userName);
         User GetUserByActiveCode(string activeCode);
+        User GetUserById(int userId);
         #endregion
 
         #region UserPanel
@@ -47,7 +48,8 @@ namespace TopLearn.Core.Services.Interfaces
 
         UsersForShowInAdminViewModel GetUsers(int pageId = 1, string filterUserName = "", string filterEmail = "");
         int AddUserFromAdmin(CreateUserViewModel create);
-
+        EditUserViewModel GetUserForEditFromAdmin(int userId);
+        void EditUserFromAdmin(EditUserViewModel edit);
         #endregion
     }
 }
